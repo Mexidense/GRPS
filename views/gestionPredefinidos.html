@@ -1,0 +1,93 @@
+<html ng-app="GestionPredefinidos">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>
+		Gestión de Riesgos de Proyecto Software
+	</title>
+</head>
+<body onload="Comenzar()" ng-controller="GestionPredefinidosController">
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<h1><a href="#">GRPS</a></h1>
+			<h3><a href="#">Gestión de Riesgos de Proyecto Software</a></h3>
+			</br>
+		</div>
+		<div ng-show="invitado" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="links.html" accesskey="4" title="">Links</a></li>
+				<li><a href="login.html" accesskey="5" title="">Iniciar sesión</a></li>
+			</ul>
+		</div>
+		<div ng-show="registrado" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="proyectos.html" accesskey="2" title="">Proyectos</a></li>
+				<li><a href="links.html" accesskey="4" title="">Links</a></li>
+				<li><a href="cerrarSesion.html" accesskey="5" title="">Cerrar sesión</a></li>
+			</ul>
+		</div>
+		<div ng-show="administrador" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="proyectos.html" accesskey="2" title="">Proyectos</a></li>
+				<li><a href="links.html" accesskey="3" title="">Links</a></li>
+				<li class="active"><a href="gestion.html" accesskey="4" title="">Gestión</a></li>
+				<li><a href="cerrarSesion.html" accesskey="5" title="">Cerrar sesión</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="liveclock"></div>
+<div class="wrapper">
+	<div id="welcome" class="container">
+		<div class="title">
+			<h3>Gestión de Predefinidos</h3>
+		</div>
+		<div>
+			<div class="row" > 
+				<div class="col-xs-3 col-md-3 text-center"><b>Tipos de software</b></div>
+				<div class="col-xs-3 col-md-3 text-center"><b>Categoria de riesgos</b></div>
+				<div class="col-xs-3 col-md-3 text-center"><b>Impacto en riesgo</b></div>
+				<div class="col-xs-3 col-md-3 text-center"><b>Tipos de usuario</b></div>
+			</div>
+			</br>
+			<div class="row">
+				<div class="col-xs-3 col-md-3">
+					<textarea style="height: 250px; font-size: 8pt; resize: none; overflow-y: scroll;" class="form-control" ng-list="&#10;" ng-model="tiposSoftware" ng-trim="false"></textarea>
+				</div>
+				<div class="col-xs-3 col-md-3">
+					<textarea style="height: 250px; font-size: 8pt; resize: none; overflow-y: scroll;" class="form-control" ng-list="&#10;" ng-model="categoriaRiesgos" ng-trim="false"></textarea>
+				</div>
+				<div class="col-xs-3 col-md-3">
+					<textarea style="height: 250px; font-size: 8pt; resize: none; overflow-y: scroll;" class="form-control" ng-list="&#10;" ng-model="impactoRiesgo" ng-trim="false"></textarea>
+				</div>
+				<div class="col-xs-3 col-md-3">
+					<textarea style="height: 250px; font-size: 8pt; resize: none; overflow-y: scroll;" class="form-control" ng-list="&#10;" ng-model="tipoUsuario" ng-trim="false"></textarea>
+				</div>
+			</div>
+			</br>
+			<div class="row ">
+				<div class="col-xs-3 col-md-3"><button ng-click="guardarTiposSoftware()" type="button" class="btn btn-success col-xs-12 col-md-12">Guardar cambios</button></div>
+				<div class="col-xs-3 col-md-3"><button ng-click="guardarCategoriasRiesgo()" type="button" class="btn btn-success col-xs-12 col-md-12">Guardar cambios</button></div>
+				<div class="col-xs-3 col-md-3"><button ng-click="guardarImpactosRiesgo()" type="button" class="btn btn-success col-xs-12 col-md-12">Guardar cambios</button></div>
+				<div class="col-xs-3 col-md-3"><button ng-click="guardarTiposUsuario()" type="button" class="btn btn-success col-xs-12 col-md-12">Guardar cambios</button></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<link href="./styles/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="./styles/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
+
+<script type="text/javascript" src="reloj.js"></script>
+<script src="../angular/angular.min.js"></script>
+<script src="../angular/angular-route.js"></script>
+<script src="../angular/ui-bootstrap-tpls-0.14.3.min.js"></script>
+<script src="../angular/angular-cookies.js"></script>
+<script src="../angular/gestionPredefinidos.js"></script>
+
+
+</body>
+</html>

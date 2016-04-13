@@ -1,0 +1,414 @@
+<html ng-app="GestionProyectos">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>
+		Gestión de Riesgos de Proyecto Software
+	</title>
+</head>
+<body onload="Comenzar()" ng-controller="GestionProyectosController">
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<h1><a href="#">GRPS</a></h1>
+			<h3><a href="#">Gestión de Riesgos de Proyecto Software</a></h3>
+			</br>
+		</div>
+		<div ng-show="invitado" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="links.html" accesskey="4" title="">Links</a></li>
+				<li><a href="login.html" accesskey="5" title="">Iniciar sesión</a></li>
+			</ul>
+		</div>
+		<div ng-show="registrado" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="proyectos.html" accesskey="2" title="">Proyectos</a></li>
+				<li><a href="links.html" accesskey="4" title="">Links</a></li>
+				<li><a href="cerrarSesion.html" accesskey="5" title="">Cerrar sesión</a></li>
+			</ul>
+		</div>
+		<div ng-show="administrador" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="proyectos.html" accesskey="2" title="">Proyectos</a></li>
+				<li><a href="links.html" accesskey="3" title="">Links</a></li>
+				<li class="active"><a href="gestion.html" accesskey="4" title="">Gestión</a></li>
+				<li><a href="cerrarSesion.html" accesskey="5" title="">Cerrar sesión</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="liveclock"></div>
+<div class="wrapper">
+	<div id="welcome" class="container">
+		<div class="title">
+			<h3>Crear nuevo proyecto</h3>
+		</div>
+		<hr>
+		<form name="myForm">
+		<div class="row"> 
+			<div class="col-xs-5 col-md-6">
+				<div class="form-group">
+					<label for="nombre">Nombre del proyecto*</label>
+					<input id="nombre" type="text" class="input-lg text-center" placeholder="nombre" ng-model="nuevoProyecto.nombre" required>
+				</div>	
+				<div class="form-group">
+					<label for="tipoProyecto">Seleccione el tipo de proyecto*</label>
+					<select id="tipoProyecto"style="width: 95%;" ng-model="nuevoProyecto.tipoProyecto" class="input-lg text-center" required>
+						<option ng-repeat="tipo in tipoProyecto">{{tipo}}</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="descripcion">Descripción del proyecto</label>
+					<textarea id="descripcion" style="height: 100px; font-size: 8pt; resize: none; overflow-y: scroll;" class="form-control" ng-model="nuevoProyecto.descripcion" placeholder="Inserte una breve descripción del proyecto"></textarea>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-6 col-md-6 text-center">
+						<label for="fechaInicio">Fecha de Comienzo*</label>
+						</br>
+				    	<input style="width:150px;" type="date" id="fechaInicio" ng-model="nuevoProyecto.fechaInicio"  required />
+					</div>
+					<div class="col-xs-6 col-md-6 text-center">
+						<label for="fechaFin">Fecha de Finalización*</label>
+						</br>
+				    	<input type="date" id="fechaFin" ng-model="nuevoProyecto.fechaFin" required />
+					</div>
+				</div>				
+			</div>
+			<div class="col-xs-5 col-md-6  text-center">
+				<div style="height: 280px; resize: none; overflow-y: scroll;">
+					<label class="h4" for="listadoRiesgos">Lista de riesgos a tratar en el proyecto</label>
+					<table class="table table-hover text-center">
+						<tr class="bg-info h4">
+							<td>
+								Nombre
+							</td>
+							<td>
+								Categoria
+							</td>
+							<td>
+								Impacto
+							</td>
+							<td>
+								Probabilidad
+							</td>
+						</tr>
+						<tr class="h6" ng-repeat="riesgo in listaRiesgos | orderBy: 'probabilidad':true">
+							<td>
+								{{riesgo.nombre}}
+							</td>
+							<td>
+						  		{{riesgo.categoriaRiesgo}}
+						  	</td>
+						  	<td>
+						  		{{riesgo.impactoRiesgo}}
+						  	</td>
+							<td>
+								{{riesgo.probabilidad}}%
+							</td>
+						</tr>
+					</table>
+				</div>
+				</br>
+				<div class="row">
+					<div class="col-xs-6 col-md-6 text-center">
+						<button type="button" ng-click="modalCargarRiesgos()" class="btn btn-success">Cargar riesgo</button>
+					</div>
+					<div class="col-xs-6 col-md-6 text-center">
+						<button type="button"  ng-disabled="listaRiesgos.length==0" ng-click="modalEstablecerLineaCorte()" class="btn btn-primary">Establecer línea de corte</button>
+					</div>
+				</div>	
+				<div class="row">
+					<label class="h6">{{mensajeLineaCorte}}</label>
+				</div>
+			</div>
+		</div>
+		</br>
+		<div class="row">
+			<div class="col-xs-4 col-md-4">
+			</div>
+			<div class="col-xs-4 col-md-4 text-center">
+				<div style="height: 300px; resize: none; overflow-y: scroll;">
+					<label class="h4" for="listaUsuarios">Usuarios del proyecto</label>
+					<div ng-repeat="usuario in listaTodosUsuarios" class="text-left">
+				        <label>
+			                <input type="checkbox" ng-model="usuario.seleccionado" />
+			                <span>{{usuario.nombre}}</span>
+				        </label>
+				    </div>
+				</div>
+			</div>
+			<div class="col-xs-4 col-md-4">
+			</div>
+		</div>
+		</form>
+		<hr>
+		<div class="row">
+			<div class="col-xs-2 col-md-2">
+			</div>
+			<div class="col-xs-4 col-md-4">
+				<button style="width:100%;" type="button" class="btn btn-success" ng-click="registrarProyecto()" ng-disabled="myForm.$invalid">Guardar cambios</button>
+			</div>
+			<div class="col-xs-4 col-md-4">
+				<button style="width:100%;" type="button" class="btn btn-primary" ng-click="volver()">Volver</button>
+			</div>
+			<div class="col-xs-2 col-md-2">
+			</div>
+		</div>
+		</br>
+		<div ng-show="mensajeWarning" class="alert alert-warning text-center" role="alert">
+  			{{mensaje}}
+		</div>
+		<div ng-show="mensajeSuccess" class="alert alert-success text-center" role="alert">
+  			{{mensaje}}
+		</div>
+		</br>
+			<div class="row alert alert-info text-center" role="alert">* Campos obligatorios</div>
+		</br>
+	</div>
+</div>
+
+<link href="./styles/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="./styles/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
+
+<script type="text/javascript" src="reloj.js"></script>
+<script src="../angular/angular.min.js"></script>
+<script src="../angular/angular-route.js"></script>
+<script src="../angular/ui-bootstrap-tpls-0.14.3.min.js"></script>
+<script src="../angular/proyecto.js"></script>
+<script src="../angular/angular-cookies.js"></script>
+<!-- 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Modal para cargar riesgos ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<script type="text/ng-template" id="modalCargarRiesgos.html">
+	<div style="width:100%;">
+	<div class="modal-header">
+	    <h3>Cargar riesgos</h3>
+	</div>
+	<div class="modal-body text-center" style="max-height: 800px;">
+	    <div class="row">
+		    <div class="col-xs-6 col-md-6">
+			    <div style="height: 500px; resize: none; overflow-y: scroll;">
+					<label class="h4" for="listaRiesgosParaAnadir">Riesgos predefinidos</label>
+					<table class="table table-hover h6">
+						<tr>
+							<td>
+								Nombre
+							</td>
+							<td>
+								Categoria
+							</td>
+							<td>
+								Impacto
+							</td>
+						</tr>
+						<tr class="text-center" ng-repeat="riesgo in listaRiesgosParaAnadir">
+						  	<td>
+						  		{{riesgo.nombre}}
+						  	</td>
+						  	<td>
+						  		{{riesgo.categoriaRiesgo}}
+						  	</td>
+						  	<td>
+						  		{{riesgo.impactoRiesgo}}
+						  	</td>
+						  	<td>
+						  		<a class="btn btn-success btn-sm"  ng-click="insertarRiesgoAProyecto($index,riesgo)"><span class="glyphicon glyphicon-plus"></span></a>
+						  	</td>	
+						</tr>
+					</table>
+				</div>
+		    </div>
+		    <div class="col-xs-6 col-md-6">
+		    	<div style="height: 500px; resize: none; overflow-y: scroll;">
+					<label class="h4" for="listaRiesgos">Riesgos añadidos al proyecto</label>
+					<table class="table table-hover h6">
+						<tr>
+							<td>
+								Nombre
+							</td>
+							<td>
+								Categoria
+							</td>
+							<td>
+								Impacto
+							</td>
+							<td>
+								Probabilidad
+							</td>
+						</tr>
+					  <tr class="text-center" ng-repeat="riesgo in listaRiesgos | orderBy: 'probabilidad':true">
+					  	<td>
+					  		{{riesgo.nombre}}
+					  	</td>
+					  	<td>
+					  		{{riesgo.categoriaRiesgo}}
+					  	</td>
+					  	<td>
+					  		{{riesgo.impactoRiesgo}}
+					  	</td>
+					  	<td>
+							<select ng-model="riesgo.probabilidad"  ng-options="numero for numero in probabilidades">
+							</select>
+							%
+					  	</td>
+					  	<td>
+					  		<a class="btn btn-danger btn-sm"  ng-click="descartarRiesgoEnProyecto($index, riesgo)"><span class="glyphicon glyphicon-minus"></span></a>
+					  	</td>
+					  </tr>
+					</table>
+				</div>
+		    </div>
+	    </div>
+	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-xs-4 col-md-4">
+			</div>
+			<div class="col-xs-4 col-md-4">
+				<button style="width:100%;" class="btn btn-primary" ng-click="addRiesgo()">Añadir un nuevo riesgo</button>
+			</div>
+			<div class="col-xs-4 col-md-4">
+			</div>
+		</div>
+		<br>
+		<div ng-show="probabilidadesNulas" class="alert alert-warning text-center" role="alert">
+  			<b>{{mensajeWarning}}</b>
+  			<br>
+		</div>
+	    <button class="btn btn-info" ng-click="volver()">Volver</button>
+	</div>
+	</div>
+</script>	
+<!-- 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Modal para añadir un nuevo riesgo ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<script type="text/ng-template" id="modalAddRiesgo.html">
+	<div class="modal-header">
+	    <h3>Crear nuevo riesgo</h3>
+	</div>
+	<div style="margin: 10px;"class="modal-body text-center">
+		<form name="myForm">
+			<div class="container" style="width: 300px;">
+				<div class="form-group">
+					<label for="nombre">Nombre del riesgo*</label>
+					<input id="nombre" type="text" class="input-lg text-center" placeholder="nombre" ng-model="nuevoRiesgo.nombre" required>
+				</div>	
+				<div class="form-group">
+					<label for="categoriaRiesgo">Seleccione la categoria del riesgo*</label>
+					<select id="categoriaRiesgo"style="width: 95%;" ng-model="nuevoRiesgo.categoriaRiesgo" class="input-lg text-center" required>
+						<option ng-repeat="categoria in categoriaRiesgos">{{categoria}}</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="impactoRiesgo">Seleccione el impacto del riesgo*</label>
+					<select id="impactoRiesgo"style="width: 95%;" ng-model="nuevoRiesgo.impactoRiesgo" class="input-lg text-center"required>
+						<option ng-repeat="impacto in impactoRiesgos">{{impacto}}</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="tipoRiesgo">Tipo del riesgo*</label>
+					<input id="tipoRiesgo" type="text" class="input-lg text-center" placeholder="tipo de riesgo" ng-model="nuevoRiesgo.tipoRiesgo" required>
+				</div>
+			</div>
+			<div class="row">
+				<label for="descripcion">Descripción del riesgo</label>
+				<textarea id="descripcion" style="height: 100px; font-size: 8pt; resize: none; overflow-y: scroll;" class="form-control" ng-model="nuevoRiesgo.descripcion" placeholder="Inserte una breve descripción del riesgo"></textarea>
+			</div>
+			</br>
+			<div class="row">
+				<label for="factores">Factores que influyen en el riesgo</label>
+				<textarea id="factores" style="height: 100px; font-size: 8pt; resize: none; overflow-y: scroll;" class="form-control" ng-model="nuevoRiesgo.factores" placeholder="Comente que factores influyen en este riesgo"></textarea>
+			</div>
+			</br>
+			<div class="row">
+				<label for="reduccion">Reducción del riesgo</label>
+				<textarea id="reduccion" style="height: 100px; font-size: 8pt; resize: none; overflow-y: scroll;" class="form-control" ng-model="nuevoRiesgo.reduccion" placeholder="¿Cómo vamos a reducir el riesgo?"></textarea>
+			</div>
+			</br>
+			<div class="row">
+				<label for="supervision">Supervisión del riesgo</label>
+				<textarea id="supervision" style="height: 100px; font-size: 8pt; resize: none; overflow-y: scroll;" class="form-control" ng-model="nuevoRiesgo.supervision" placeholder="Comente cómo se supervisará el riesgo"></textarea>
+			</div>
+			</br>
+			<div class="row alert alert-info text-right" role="alert">* Campos obligatorios</div>
+			</br>
+			<div class="row">
+				<button class="btn btn-success btn-lg col-xs-5 col-md-5" ng-click="registrarRiesgo()" ng-disabled="myForm.$invalid">Crear riesgo</button>
+				<div class="col-xs-2 col-md-2"></div>
+
+				<button class="btn btn-primary btn-lg col-xs-5 col-md-5" ng-click="volver()">Volver</button>
+			</div>
+		</form>
+		<div ng-show="mensajeWarning" class="alert alert-warning text-center" role="alert">
+  			{{mensaje}}
+		</div>
+		<div ng-show="mensajeSuccess" class="alert alert-success text-center" role="alert">
+  			{{mensaje}}
+		</div>	   	
+	</div>
+</script>
+
+<!-- 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Modal para establecer la linea de corte///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<script type="text/ng-template" id="modalEstablecerLineaCorte.html">
+	<div class="modal-header">
+	    <h3>Establecer línea de corte</h3>
+	</div>
+	<div style="margin: 10px;"class="modal-body text-center">
+		<div class="row" >
+			<div class="col-xs-11 col-md-11" style="height: 280px; resize: none; overflow-y: scroll;">
+				<label class="h3" for="listadoRiesgos">Línea de corte</label>
+				<table class="table table-condensed text-center">
+					<tr class="bg-info h5">
+						<td>	
+							Número de Riesgo
+						</td>
+						<td>
+							Nombre
+						</td>
+						<td>
+							Probabilidad
+						</td>
+						<td>
+							Impacto
+						</td>
+					</tr>
+					<tr class="h6" ng-repeat="riesgo in listaRiesgosLineaCorte track by $index" ng-class="{lineaCorte: riesgo.nombre=='LINEA DE CORTE'}">
+						<td>
+							{{indice($index, riesgo)}}
+						</td><td>
+							{{riesgo.nombre}}
+						</td>
+						<td>
+							{{porcentaje(riesgo.probabilidad)}}
+						</td>
+					  	<td>
+					  		{{riesgo.impactoRiesgo}}
+					  	</td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-xs-1 col-md-1">
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<a class="btn btn-info btn-lg" ng-disabled="riesgoPorDebajoCorte==0" ng-click="subir(riesgoPorDebajoCorte)" ><span class="glyphicon glyphicon-arrow-up"></span></a>
+				<br>
+				<br>
+				<a class="btn btn-info btn-lg" ng-disabled="riesgoPorDebajoCorte==(listaRiesgosLineaCorte.length-1)" ng-click="bajar(riesgoPorDebajoCorte)" ><span class="glyphicon glyphicon-arrow-down"></span></a>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-info" ng-click="volver()">Volver</button>
+	</div>
+</script>	
+
+
+</body>
+</html>

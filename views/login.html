@@ -1,0 +1,99 @@
+<html ng-app="Login">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>
+		Gestión de Riesgos de Proyecto Software
+	</title>
+</head>
+<body onload="Comenzar()" ng-controller="LoginController">
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<h1><a href="#">GRPS</a></h1>
+			<h3><a href="#">Gestión de Riesgos de Proyecto Software</a></h3>
+			</br>
+		</div>
+		<div ng-show="invitado" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="links.html" accesskey="4" title="">Links</a></li>
+				<li class="active"><a href="login.html" accesskey="5" title="">Iniciar sesión</a></li>
+			</ul>
+		</div>
+		<div ng-show="registrado" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="proyectos.html" accesskey="2" title="">Proyectos</a></li>
+				<li><a href="links.html" accesskey="4" title="">Links</a></li>
+				<li class="active"><a href="cerrarSesion.html" accesskey="5" title="">Cerrar sesión</a></li>
+			</ul>
+		</div>
+		<div ng-show="administrador" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="proyectos.html" accesskey="2" title="">Proyectos</a></li>
+				<li><a href="links.html" accesskey="3" title="">Links</a></li>
+				<li><a href="gestion.html" accesskey="4" title="">Gestión</a></li>
+				<li class="active"><a href="cerrarSesion.html" accesskey="5" title="">Cerrar sesión</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="liveclock"></div>
+<div class="wrapper">
+	<div id="welcome" class="container">
+		<div class="title">
+			<h3>Acceso</h3>
+		</div>
+	    <div class="row">
+	    	<div class="col-xs-3 col-md-3">
+	    	</div>
+	    	<div class="col-xs-6 col-md-6">
+	    		<form class="form-group" name="myForm">
+					<div class="form-group">
+						<label for="email">email</label>
+						<input type="email" class="form-control" id="email" ng-model="usuario.email" placeholder="usuario@dominio" required>
+					</div>
+					<div class="form-group">
+						<label for="pass1">contraseña</label>
+						<input type="password" class="form-control" id="pass1" ng-model="usuario.pass" placeholder="*******" required>
+					</div>
+					<div class="form-group text-center">
+						<button type="submit" ng-disabled="myForm.$invalid" type="button" ng-click="hacerLogin()" class="btn btn-primary">Iniciar sesión</button>
+	    			</div>
+				</form>
+				<br>
+				 <div ng-show="mensajeWarning" class="alert alert-warning text-center" role="alert">
+  					{{mensaje}}
+				</div>
+	    	</div>
+	    	<div class="col-xs-3 col-md-3">
+	    	</div>
+	    </div>
+	    <br>
+	    <br>
+	    <br>
+	    <br>
+	    <div class="row">
+	    	<div class="col-xs-3 col-md-3">
+	    	</div>
+	    	<div class="col-xs-6 col-md-6 text-center">
+	    		<a style="width:100%;" href="registrarse.html">
+	    			<button type="button" class="btn btn-info">Registrarse</button>
+	    		</a>
+	    	</div>
+	    	<div class="col-xs-3 col-md-3">
+	    	</div>
+	    </div>
+	</div>
+<link href="./styles/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="./styles/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
+
+<script type="text/javascript" src="reloj.js"></script>
+<script src="../angular/angular.min.js"></script>
+<script src="../angular/angular-route.js"></script>
+<script src="../angular/ui-bootstrap-tpls-0.14.3.min.js"></script>
+<script src="../angular/login.js"></script>
+<script src="../angular/angular-cookies.js"></script>
+</body>
+</html>

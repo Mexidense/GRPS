@@ -1,0 +1,324 @@
+	html, body
+	{
+		height: 100%;
+	}
+	
+	body
+	{
+		margin: 0px;
+		padding: 0px;
+		background: #2056ac;
+		font-family: 'Questrial', sans-serif;
+		font-size: 12pt;
+		color: rgba(0,0,0,.6);
+	}
+	
+	
+	h1, h2, h3
+	{
+		margin: 0;
+		padding: 0;
+		color: #404040;
+	}
+	
+	p, ol, ul
+	{
+		margin-top: 0;
+	}
+	
+	ol, ul
+	{
+		padding: 0;
+		list-style: none;
+	}
+	
+	p
+	{
+		line-height: 180%;
+	}
+	
+	strong
+	{
+	}
+	
+	a
+	{
+		color: #2056ac;
+	}
+	
+	a:hover
+	{
+		text-decoration: none;
+	}
+	
+
+	.container
+	{
+		margin: 0px auto;
+		
+	}
+	
+
+
+/*********************************************************************************/
+/* Heading Titles                                                                */
+/*********************************************************************************/
+
+	.title
+	{
+		margin-bottom: 1em;
+	}
+	
+
+/*********************************************************************************/
+/* Header                                                                        */
+/*********************************************************************************/
+
+	#header-wrapper
+	{
+		overflow: hidden;
+		background: #2056ac;
+	}
+
+	#header
+	{
+		text-align: center;
+	}
+
+/*********************************************************************************/
+/* Logo                                                                          */
+/*********************************************************************************/
+
+	#logo
+	{
+		padding: 0em 0em 4em 0em;
+	}
+	
+	#logo h1
+	{
+		display: block;
+		margin-bottom: 0.20em;
+		padding: 0.20em 0.9em;
+		font-size: 3.5em;
+	}
+	
+	#logo a
+	{
+		text-decoration: none;
+		color: #FFF;
+	}
+	
+	#logo span
+	{
+		text-transform: uppercase;
+		font-size: 2.90em;
+		color: rgba(255,255,255,1);
+	}
+
+	#logo span a
+	{
+		color: rgba(255,255,255,0.8);
+	}
+	
+	
+
+/*********************************************************************************/
+/* Menu                                                                          */
+/*********************************************************************************/
+
+	#menu
+	{
+		height: 60px;
+	}
+	
+	#menu ul
+	{
+		display: inline-block;
+		padding: 0em 2em;
+		text-align: center;
+	}
+	
+	#menu li
+	{
+		display: inline-block;
+	}
+	
+	#menu li a, #menu li span
+	{
+		display: inline-block;
+		padding: 0em 1.5em;
+		text-decoration: none;
+		font-size: 0.90em;
+		font-weight: 600;
+		text-transform: uppercase;
+		line-height: 60px;
+		outline: 0;
+		color: #FFF;
+	}
+	
+	#menu li:hover a, #menu li.active a, #menu li.active span
+	{
+		background: #FFF;
+		border-radius: 7px 7px 0px 0px;
+		color: #2056ac;
+	}
+	
+	#menu .current_page_item a
+	{
+	}
+	
+
+/*********************************************************************************/
+/* Banner                                                                        */
+/*********************************************************************************/
+
+	#banner
+	{
+		padding-top: 5em;
+	}
+
+/*********************************************************************************/
+/* Wrapper                                                                       */
+/*********************************************************************************/
+
+
+	.wrapper
+	{
+		overflow: hidden;
+		padding: 0em 0em 5em 0em;
+		background: #FFF;
+	}
+
+	#wrapper1
+	{
+		background: #FFF;
+	}
+
+	#wrapper2
+	{
+		overflow: hidden;
+		background: #F3F3F3;
+		padding: 5em 0em;
+		text-align: center;
+	}
+
+	#wrapper3
+	{
+	}
+	
+	#wrapper4
+	{
+	}
+
+/*********************************************************************************/
+/* Welcome                                                                       */
+/*********************************************************************************/
+
+	#welcome
+	{
+		overflow: hidden;
+		padding: 3em 50px 0em 50px;
+	}
+	
+	#welcome .content
+	{
+		padding: 0em 8em;
+	}
+	
+	#welcome .title h3
+	{
+		text-align: center;
+	}
+	
+	#welcome a,
+	#welcome strong
+	{
+	}
+
+/*********************************************************************************/
+/* Reloj                                                                       */
+/*********************************************************************************/
+#liveclock{
+    position:absolute;
+    right:0;
+    top:0;
+    color: #FFF;
+} 
+
+/*********************************************************************************/
+/* Listas                                                                       */
+/*********************************************************************************/
+#listaNumerada {
+    counter-reset: li; 
+    list-style: none; 
+    *list-style: decimal; 
+    font: 15px 'trebuchet MS', 'lucida sans';
+    padding: 0;
+    margin: 10px;
+    margin-bottom: 4em;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
+#listaNumerada ol {
+    margin: 0 0 0 2em; 
+}
+
+#listaNumerada {
+    list-style-type: none;
+    list-style-type: decimal !ie; /*IE 7- hack*/
+ 
+    padding: 0;
+     
+    counter-reset: li-counter;
+}
+
+#listaNumerada > li{
+
+    position: relative;
+    margin-bottom: 1.5em;
+    padding: 1.5em;
+    background-color: #eaeaea;
+    text-align: center;
+}
+
+#listaNumerada > li:before {
+    position: absolute;
+    top: -0.3em;
+    left: -0.5em;
+    width: 1.8em;
+    height: 1.2em;
+     
+    font-size: 2em;
+    line-height: 1.2;
+    font-weight: bold;
+    text-align: center;
+    color: #464646;
+    background-color: #d0d0d0;
+     
+    transform: rotate(-20deg);
+    -ms-transform: rotate(-20deg);
+    -webkit-transform: rotate(-20deg);
+    z-index: 99;
+    overflow: hidden;
+     
+    content: counter(li-counter);
+    counter-increment: li-counter;
+}
+#listaNumerada a{
+	text-decoration: none;
+	text-align: center;
+	color: #000;
+}
+
+#listaNumerada li:hover a, #listaNumerada li.active a, #listaNumerada li.active span
+	{
+		background: #2056ac;
+		color: #FFF;
+		padding: 7px 100px;
+
+	}
+
+.lineaCorte{
+	background: #5bc0de;
+	color: #FFF;
+}

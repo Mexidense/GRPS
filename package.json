@@ -1,0 +1,14 @@
+{
+	"name": "GestionRiesgos",
+	"version": "0.0.1",
+	"description": "Gestión de riesgos",
+	"main": "server.js",
+	"dependencies": {
+		"express"    : "~3.4.4",
+    	"mongoose"   : "~3.6.2",
+		"method-override": "latest",
+		"body-parser": "latest",
+		"jade": "latest",
+		"stylus": "latest"
+	}
+}

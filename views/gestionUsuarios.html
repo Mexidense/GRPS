@@ -1,0 +1,142 @@
+<html ng-app="GestionUsuarios">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>
+		Gestión de Riesgos de Proyecto Software
+	</title>
+
+</head>
+<body onload="Comenzar()" ng-controller="userController">
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<h1><a href="#">GRPS</a></h1>
+			<h3><a href="#">Gestión de Riesgos de Proyecto Software</a></h3>
+			</br>
+		</div>
+		<div ng-show="invitado" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="links.html" accesskey="4" title="">Links</a></li>
+				<li><a href="login.html" accesskey="5" title="">Iniciar sesión</a></li>
+			</ul>
+		</div>
+		<div ng-show="registrado" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="proyectos.html" accesskey="2" title="">Proyectos</a></li>
+				<li><a href="links.html" accesskey="4" title="">Links</a></li>
+				<li><a href="cerrarSesion.html" accesskey="5" title="">Cerrar sesión</a></li>
+			</ul>
+		</div>
+		<div ng-show="administrador" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="proyectos.html" accesskey="2" title="">Proyectos</a></li>
+				<li><a href="links.html" accesskey="3" title="">Links</a></li>
+				<li class="active"><a href="gestion.html" accesskey="4" title="">Gestión</a></li>
+				<li><a href="cerrarSesion.html" accesskey="5" title="">Cerrar sesión</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="liveclock"></div>
+<div class="wrapper">
+	<div id="welcome" class="container">
+	<div class="title">
+		<h3>Gestión de usuarios</h3>
+	</div>
+	<p>
+		<table class="table table-striped">
+		    <tr class="info text-center">
+		    	<td>Nombre</td>
+		        <td>Email</td>
+		        <td>Password</td>
+		        <td>Tipo de usuario</td>
+		    </tr>
+		    <tr ng-repeat="usuario in usuarios | orderBy:'nombre'">
+		    	<td class="text-center">{{ usuario.nombre }}</td>
+		        <td class="text-center">{{ usuario.email }}</td>
+		        <td class="text-center">********</td>
+		        <td class="text-center">{{ usuario.tipo }}</td> 
+		        <td class="text-center" style="width: 110px;">
+		        	<a class="btn btn-primary" ng-click="irModalModificar(usuario)"><span class="glyphicon glyphicon-pencil"></span></a>
+		            <a class="btn btn-danger"  ng-click="irModalBorrado(usuario)"><span class="glyphicon glyphicon-trash"></span></a>
+		        </td>
+		    </tr>
+		</table>
+		</br>
+		<div>
+			<button style="width: 100%;" class="btn btn-success btn-lg" ng-click="irRegistrarUsuario()">Añadir usuario</button>
+		</div>
+	</p>
+	</div>
+</div>
+
+<link href="./styles/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="./styles/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
+
+<script type="text/javascript" src="reloj.js"></script>
+<script src="../angular/angular.min.js"></script>
+<script src="../angular/angular-route.js"></script>
+<script src="../angular/ui-bootstrap-tpls-0.14.3.min.js"></script>
+<script src="../angular/usuario.js"></script>
+<script src="../angular/angular-cookies.js"></script>
+<!-- Modal de modificación -->
+		<script type="text/ng-template" id="modalModificar.html">
+			<div class="modal-header">
+			    <h3>Modificar Usuario</h3>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-info text-center">
+			    Modifique los parametros que desee para el usuario:	<b>{{usuarioAModificar.nombre}}</b>
+			    </div>
+			    <div ng-show="mensajeWarning" class="alert alert-warning text-center" role="alert">
+  					{{mensaje}}
+				</div>
+			    <form name="myForm">
+					<div class="container" style="width: 300px;">
+						<div class="form-group">
+							<label for="nombre">Nombre</label>
+							<input id="nombre" type="text" class="input-lg text-center" placeholder="nombre" ng-model="usuarioAModificar.nombre" required>
+						</div>	
+						<div class="form-group">
+							<label for="email">Correo electrónico</label>
+							<input id="email" type="email" class="input-lg text-center" placeholder="ejemplo@dominio.com" ng-model="usuarioAModificar.email" required>
+						</div>
+						<div class="form-group">
+							<label for="pass">Contraseña</label>
+							<input id="pass" type="password" class="input-lg text-center" placeholder="******" ng-model="usuarioAModificar.pass"required>
+						</div>
+						<div class="form-group">
+							<label for="Tipo">Seleccione tipo de usuario</label>
+							<select id="tipo"style="width: 95%;" ng-model="usuarioAModificar.tipo" class="input-lg text-center"required>
+							  <option>Estandar</option>
+							  <option>Administrador</option>
+							</select>
+						</div>						
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+			    <button class="btn btn-primary" ng-disabled="myForm.$invalid" ng-click="modificar()">Modificar usuario</button>
+			    <button class="btn btn-warning" ng-click="cancelar()">Cancelar</button>
+			</div>
+		</script>
+
+
+		<!-- Modal de borrado -->
+		<script type="text/ng-template" id="modalBorrar.html">
+			<div class="modal-header">
+			    <h3>Borrar Usuario</h3>
+			</div>
+			<div class="modal-body alert alert-warning text-center">
+			    ¿Está seguro que desea eliminar el usuario:	<b>{{usuarioABorrar.nombre}}</b>?
+			</div>
+			<div class="modal-footer">
+			    <button class="btn btn-primary" ng-click="borrar()">Borrar usuario</button>
+			    <button class="btn btn-warning" ng-click="cancelar()">Cancelar</button>
+			</div>
+		</script>	
+</body>
+</html>

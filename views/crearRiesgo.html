@@ -1,0 +1,121 @@
+<html ng-app="GestionRiesgos">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>
+		Gestión de Riesgos de Proyecto Software
+	</title>
+	
+
+</head>
+<body onload="Comenzar()" ng-controller="GestionRiesgosController">
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<h1><a href="#">GRPS</a></h1>
+			<h3><a href="#">Gestión de Riesgos de Proyecto Software</a></h3>
+			</br>
+		</div>
+		<div ng-show="invitado" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="links.html" accesskey="4" title="">Links</a></li>
+				<li><a href="login.html" accesskey="5" title="">Iniciar sesión</a></li>
+			</ul>
+		</div>
+		<div ng-show="registrado" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="proyectos.html" accesskey="2" title="">Proyectos</a></li>
+				<li><a href="links.html" accesskey="4" title="">Links</a></li>
+				<li><a href="cerrarSesion.html" accesskey="5" title="">Cerrar sesión</a></li>
+			</ul>
+		</div>
+		<div ng-show="administrador" id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Página Principal</a></li>
+				<li><a href="proyectos.html" accesskey="2" title="">Proyectos</a></li>
+				<li><a href="links.html" accesskey="3" title="">Links</a></li>
+				<li class="active"><a href="gestion.html" accesskey="4" title="">Gestión</a></li>
+				<li><a href="cerrarSesion.html" accesskey="5" title="">Cerrar sesión</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="liveclock"></div>
+<div class="wrapper">
+	<div id="welcome" class="container">
+		<div class="title">
+			<h3>Crear riesgo nuevo</h3>
+		</div>
+		<form name="myForm">
+			<div class="container" style="width: 300px;">
+				<div class="form-group">
+					<label for="nombre">Nombre del riesgo*</label>
+					<input id="nombre" type="text" class="input-lg text-center" placeholder="nombre" ng-model="nuevoRiesgo.nombre" required>
+				</div>	
+				<div class="form-group">
+					<label for="categoriaRiesgo">Seleccione la categoria del riesgo*</label>
+					<select id="categoriaRiesgo"style="width: 95%;" ng-model="nuevoRiesgo.categoriaRiesgo" class="input-lg text-center" required>
+						<option ng-repeat="categoria in categoriaRiesgos">{{categoria}}</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="impactoRiesgo">Seleccione el impacto del riesgo*</label>
+					<select id="impactoRiesgo"style="width: 95%;" ng-model="nuevoRiesgo.impactoRiesgo" class="input-lg text-center"required>
+						<option ng-repeat="impacto in impactoRiesgos">{{impacto}}</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="tipoRiesgo">Tipo del riesgo*</label>
+					<input id="tipoRiesgo" type="text" class="input-lg text-center" placeholder="tipo de riesgo" ng-model="nuevoRiesgo.tipoRiesgo" required>
+				</div>
+			</div>
+			<div class="row">
+				<label for="descripcion">Descripción del riesgo</label>
+				<textarea id="descripcion" style="height: 100px; font-size: 8pt; resize: none; overflow-y: scroll;" class="form-control" ng-model="nuevoRiesgo.descripcion" placeholder="Inserte una breve descripción del riesgo"></textarea>
+			</div>
+			</br>
+			<div class="row">
+				<label for="factores">Factores que influyen en el riesgo</label>
+				<textarea id="factores" style="height: 100px; font-size: 8pt; resize: none; overflow-y: scroll;" class="form-control" ng-model="nuevoRiesgo.factores" placeholder="Comente que factores influyen en este riesgo"></textarea>
+			</div>
+			</br>
+			<div class="row">
+				<label for="reduccion">Reducción del riesgo</label>
+				<textarea id="reduccion" style="height: 100px; font-size: 8pt; resize: none; overflow-y: scroll;" class="form-control" ng-model="nuevoRiesgo.reduccion" placeholder="¿Cómo vamos a reducir el riesgo?"></textarea>
+			</div>
+			</br>
+			<div class="row">
+				<label for="supervision">Supervisión del riesgo</label>
+				<textarea id="supervision" style="height: 100px; font-size: 8pt; resize: none; overflow-y: scroll;" class="form-control" ng-model="nuevoRiesgo.supervision" placeholder="Comente cómo se supervisará el riesgo"></textarea>
+			</div>
+			</br>
+			<div class="row alert alert-info text-right" role="alert">* Campos obligatorios</div>
+			</br>
+			<div class="row">
+				<button class="btn btn-success btn-lg col-xs-5 col-md-5" ng-click="registrarRiesgo()" ng-disabled="myForm.$invalid">Crear riesgo</button>
+				<div class="col-xs-2 col-md-2"></div>
+
+				<button class="btn btn-danger btn-lg col-xs-5 col-md-5" ng-click="volver()">Cancelar</button>
+			</div>
+		</form>
+		<div ng-show="mensajeWarning" class="alert alert-warning text-center" role="alert">
+  			{{mensaje}}
+		</div>
+		<div ng-show="mensajeSuccess" class="alert alert-success text-center" role="alert">
+  			{{mensaje}}
+		</div>
+	</div>
+</div>
+
+<link href="./styles/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="./styles/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
+
+<script type="text/javascript" src="reloj.js"></script>
+<script src="../angular/angular.min.js"></script>
+<script src="../angular/angular-route.js"></script>
+<script src="../angular/ui-bootstrap-tpls-0.14.3.min.js"></script>
+<script src="../angular/angular-cookies.js"></script>
+<script src="../angular/riesgo.js"></script>
+</body>
+</html>
